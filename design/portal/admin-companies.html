@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal - Admin companies</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <link rel="stylesheet" href="../assets/portal-mocks.css">
+  <style>
+    /* Admin companies screen: table and modal */
+    .page-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-4);
+      margin-bottom: var(--spacing-6);
+    }
+    .page-toolbar .search-wrap {
+      flex: 1;
+      min-width: 200px;
+      max-width: 320px;
+    }
+    .page-toolbar .search-wrap .form-input {
+      padding-left: 2.25rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af' width='18' height='18'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 0.75rem center;
+    }
+    .companies-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      background-color: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+    .companies-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+    .companies-table th,
+    .companies-table td {
+      padding: var(--spacing-4) var(--spacing-6);
+      text-align: left;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .companies-table th {
+      font-weight: var(--font-weight-semibold);
+      color: var(--gray-700);
+      background-color: var(--gray-50);
+    }
+    .companies-table tbody tr:hover {
+      background-color: var(--gray-50);
+    }
+    .companies-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .companies-table .col-name { font-weight: var(--font-weight-medium); color: var(--gray-900); }
+    .companies-table .col-email { color: var(--gray-600); }
+    .companies-table .col-count { color: var(--gray-500); text-align: center; }
+    .companies-table .col-actions { white-space: nowrap; }
+    .companies-table .col-actions .btn { margin-right: var(--spacing-2); }
+    .companies-table .col-actions .btn:last-child { margin-right: 0; }
+    .empty-state {
+      padding: var(--spacing-12);
+      text-align: center;
+      color: var(--gray-500);
+    }
+    .empty-state p { margin-bottom: var(--spacing-4); }
+    /* Modal overlay and dialog */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-modal-backdrop);
+      padding: var(--spacing-4);
+    }
+    .modal-overlay[hidden] { display: none; }
+    .modal-dialog {
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background-color: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      z-index: var(--z-modal);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-6);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .modal-header h2 { margin: 0; font-size: var(--font-size-xl); }
+    .modal-close {
+      padding: var(--spacing-2);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-500);
+      border-radius: var(--radius-md);
+    }
+    .modal-close:hover { background-color: var(--gray-100); color: var(--gray-700); }
+    .modal-body { padding: var(--spacing-6); }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--spacing-3);
+      padding: var(--spacing-6);
+      border-top: 1px solid var(--gray-200);
+      background-color: var(--gray-50);
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="portal-app">
+    <header class="portal-topbar">
+      <div class="portal-topbar-left">
+        <a href="home-web.html" class="portal-topbar-logo" aria-label="Portal home">
+          <img src="../assets/echocorner_mini.png" alt="">
+        </a>
+        <span class="portal-topbar-app-name">Operators Portal</span>
+      </div>
+      <div class="portal-profile-wrap" id="profile-wrap">
+        <button type="button" class="portal-profile-trigger" id="profile-trigger" aria-haspopup="true" aria-expanded="false" aria-label="Profile menu">
+          <span class="portal-avatar" aria-hidden="true">O</span>
+          <span>Profile</span>
+        </button>
+        <div class="portal-profile-dropdown" role="menu" aria-label="Profile actions">
+          <a href="logout.html" role="menuitem">Log out</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="portal-app-row">
+      <aside class="portal-sidebar" id="sidebar" aria-label="Main navigation">
+        <nav class="portal-sidebar-nav" aria-label="Primary">
+          <ul class="portal-nav-list">
+            <li class="portal-nav-item">
+              <a href="home-web.html">
+                <span class="portal-nav-item-icon" aria-hidden="true">⌂</span>
+                <span class="portal-sidebar-label">Dashboard</span>
+              </a>
+            </li>
+            <li class="portal-nav-item">
+              <a href="admin-companies.html" class="active">
+                <span class="portal-nav-item-icon" aria-hidden="true">◉</span>
+                <span class="portal-sidebar-label">Admin companies</span>
+              </a>
+            </li>
+            <li class="portal-nav-item">
+              <a href="#">
+                <span class="portal-nav-item-icon" aria-hidden="true">👤</span>
+                <span class="portal-sidebar-label">Admin users</span>
+              </a>
+            </li>
+            <li class="portal-nav-item">
+              <a href="#">
+                <span class="portal-nav-item-icon" aria-hidden="true">▤</span>
+                <span class="portal-sidebar-label">Communities</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="portal-sidebar-footer">
+          <button type="button" class="portal-sidebar-toggle" id="sidebar-toggle" aria-label="Collapse menu" title="Collapse menu">
+            <span aria-hidden="true">◀</span>
+            <span class="portal-sidebar-toggle-text">Collapse</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="portal-content">
+        <div class="portal-breadcrumbs">
+          <nav aria-label="Breadcrumb">
+            <a href="home-web.html">Home</a>
+            <span class="portal-breadcrumbs-sep" aria-hidden="true">/</span>
+            <span aria-current="page">Admin companies</span>
+          </nav>
+        </div>
+  <main class="portal-main">
+    <div class="page-toolbar">
+      <div class="search-wrap">
+        <label for="search-companies" class="form-label visually-hidden">Search companies</label>
+        <input type="search" id="search-companies" class="form-input" placeholder="Search by name or email…" aria-label="Search companies">
+      </div>
+      <button type="button" class="btn btn-primary" id="btn-add-company" aria-label="Add company">Add company</button>
+    </div>
+
+    <div class="companies-table-wrap">
+      <table class="companies-table" aria-label="Admin companies list">
+        <thead>
+          <tr>
+            <th scope="col">Legal name</th>
+            <th scope="col">Contact email</th>
+            <th scope="col" class="col-count">Communities</th>
+            <th scope="col" class="col-count">Admin users</th>
+            <th scope="col" class="col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-name">Acme Estates Ltd</td>
+            <td class="col-email">admin@acme-estates.example</td>
+            <td class="col-count">3</td>
+            <td class="col-count">5</td>
+            <td class="col-actions">
+              <a href="#" class="btn btn-ghost btn-sm">Show details</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-name">Green Valley Management</td>
+            <td class="col-email">contact@greenvalley.example</td>
+            <td class="col-count">12</td>
+            <td class="col-count">8</td>
+            <td class="col-actions">
+              <a href="#" class="btn btn-ghost btn-sm">Show details</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-name">North Shore Properties</td>
+            <td class="col-email">ops@northshore.example</td>
+            <td class="col-count">1</td>
+            <td class="col-count">2</td>
+            <td class="col-actions">
+              <a href="#" class="btn btn-ghost btn-sm">Show details</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty state (hidden when list has items; show by removing rows and uncommenting) -->
+    <!--
+    <div class="companies-table-wrap">
+      <div class="empty-state">
+        <p class="font-medium text-gray-700">No admin companies yet</p>
+        <p>Add a company to get started. Operators can then assign communities and admin users to it.</p>
+        <button type="button" class="btn btn-primary mt-4">Add company</button>
+      </div>
+    </div>
+    -->
+  </main>
+      </div>
+    </div>
+  </div>
+
+  <nav class="portal-bottom-nav" aria-label="Primary (mobile)">
+    <ul class="portal-bottom-nav-list">
+      <li class="portal-bottom-nav-item">
+        <a href="home-web.html">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">⌂</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="portal-bottom-nav-item">
+        <a href="admin-companies.html" class="active">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">◉</span>
+          <span>Companies</span>
+        </a>
+      </li>
+      <li class="portal-bottom-nav-item">
+        <a href="#">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">👤</span>
+          <span>Users</span>
+        </a>
+      </li>
+      <li class="portal-bottom-nav-item">
+        <a href="#">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">▤</span>
+          <span>Communities</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Modal: Add / Edit company (design only; wire to real form submit later) -->
+  <div class="modal-overlay" id="company-modal" hidden aria-modal="true" aria-labelledby="modal-title" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 id="modal-title">Add company</h2>
+        <button type="button" class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      </div>
+      <form id="company-form" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="company-legal-name" class="form-label">Legal name <span aria-hidden="true">*</span></label>
+            <input type="text" id="company-legal-name" name="legal_name" class="form-input" required placeholder="e.g. Acme Estates Ltd" autocomplete="organization">
+          </div>
+          <div class="form-group">
+            <label for="company-contact-email" class="form-label">Contact email <span aria-hidden="true">*</span></label>
+            <input type="email" id="company-contact-email" name="contact_email" class="form-input" required placeholder="admin@company.example" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="company-address" class="form-label">Address <span class="text-gray-500">(optional)</span></label>
+            <textarea id="company-address" name="address" class="form-textarea" rows="2" placeholder="Street, city, post code"></textarea>
+          </div>
+          <!-- Optional: status, notes, etc. can be added when implementing -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save company</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var profileWrap = document.getElementById('profile-wrap');
+      var profileTrigger = document.getElementById('profile-trigger');
+      if (profileWrap && profileTrigger) {
+        profileTrigger.addEventListener('click', function() {
+          profileWrap.classList.toggle('is-open');
+          profileTrigger.setAttribute('aria-expanded', profileWrap.classList.contains('is-open'));
+        });
+        document.addEventListener('click', function(e) {
+          if (profileWrap && !profileWrap.contains(e.target)) {
+            profileWrap.classList.remove('is-open');
+            profileTrigger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+      var modal = document.getElementById('company-modal');
+      var btnAdd = document.getElementById('btn-add-company');
+      var modalClose = document.getElementById('modal-close');
+      var modalCancel = document.getElementById('modal-cancel');
+      var form = document.getElementById('company-form');
+      function openModal() { if (modal) modal.removeAttribute('hidden'); }
+      function closeModal() { if (modal) modal.setAttribute('hidden', ''); }
+      if (btnAdd) btnAdd.addEventListener('click', openModal);
+      if (modalClose) modalClose.addEventListener('click', closeModal);
+      if (modalCancel) modalCancel.addEventListener('click', closeModal);
+      if (form) form.addEventListener('submit', function(e) { e.preventDefault(); closeModal(); });
+      if (modal) modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+      var sidebar = document.getElementById('sidebar');
+      var sidebarToggle = document.getElementById('sidebar-toggle');
+      if (sidebar && sidebarToggle) {
+        var collapsed = localStorage.getItem('portal-sidebar-collapsed') === '1';
+        if (collapsed) sidebar.classList.add('portal-sidebar--collapsed');
+        sidebarToggle.addEventListener('click', function() {
+          sidebar.classList.toggle('portal-sidebar--collapsed');
+          var isCollapsed = sidebar.classList.contains('portal-sidebar--collapsed');
+          localStorage.setItem('portal-sidebar-collapsed', isCollapsed ? '1' : '0');
+          sidebarToggle.setAttribute('aria-label', isCollapsed ? 'Expand sidebar' : 'Collapse sidebar');
+          sidebarToggle.setAttribute('title', isCollapsed ? 'Expand sidebar' : 'Collapse sidebar');
+          sidebarToggle.querySelector('span').textContent = isCollapsed ? '▶' : '◀';
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

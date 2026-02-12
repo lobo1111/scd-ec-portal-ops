@@ -8,48 +8,138 @@
   <link rel="stylesheet" href="../assets/portal-mocks.css">
 </head>
 <body>
-  <header class="portal-header">
-    <div class="portal-header-left">
-      <a href="home-web.html" class="portal-header-logo" aria-label="Portal home">
-        <img src="../assets/echocorner_mini.png" alt="Portal">
-      </a>
-      <span class="portal-header-title">Portal</span>
-      <nav class="portal-nav" aria-label="Main">
-        <a href="#" class="portal-nav-link">Dashboard</a>
-        <a href="#" class="portal-nav-link">Item two</a>
-        <a href="#" class="portal-nav-link">Item three</a>
-      </nav>
-    </div>
-    <div class="portal-header-right">
+  <div class="portal-app">
+    <!-- Top header (full width, static): logo, app name, page title, profile -->
+    <header class="portal-topbar">
+      <div class="portal-topbar-left">
+        <a href="home-web.html" class="portal-topbar-logo" aria-label="Portal home">
+          <img src="../assets/echocorner_mini.png" alt="">
+        </a>
+        <span class="portal-topbar-app-name">Operators Portal</span>
+      </div>
       <div class="portal-profile-wrap" id="profile-wrap">
         <button type="button" class="portal-profile-trigger" id="profile-trigger" aria-haspopup="true" aria-expanded="false" aria-label="Profile menu">
-          <span class="portal-avatar" aria-hidden="true">P</span>
+          <span class="portal-avatar" aria-hidden="true">O</span>
           <span>Profile</span>
         </button>
         <div class="portal-profile-dropdown" role="menu" aria-label="Profile actions">
           <a href="logout.html" role="menuitem">Log out</a>
         </div>
       </div>
+    </header>
+
+    <!-- Row under header: left menu + content -->
+    <div class="portal-app-row">
+      <aside class="portal-sidebar" id="sidebar" aria-label="Main navigation">
+        <nav class="portal-sidebar-nav" aria-label="Primary">
+          <ul class="portal-nav-list">
+            <li class="portal-nav-item">
+              <a href="home-web.html" class="active">
+                <span class="portal-nav-item-icon" aria-hidden="true">⌂</span>
+                <span class="portal-sidebar-label">Dashboard</span>
+              </a>
+            </li>
+            <li class="portal-nav-item">
+              <a href="admin-companies.html">
+                <span class="portal-nav-item-icon" aria-hidden="true">◉</span>
+                <span class="portal-sidebar-label">Admin companies</span>
+              </a>
+            </li>
+            <li class="portal-nav-item">
+              <a href="#">
+                <span class="portal-nav-item-icon" aria-hidden="true">👤</span>
+                <span class="portal-sidebar-label">Admin users</span>
+              </a>
+            </li>
+            <li class="portal-nav-item">
+              <a href="#">
+                <span class="portal-nav-item-icon" aria-hidden="true">▤</span>
+                <span class="portal-sidebar-label">Communities</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="portal-sidebar-footer">
+          <button type="button" class="portal-sidebar-toggle" id="sidebar-toggle" aria-label="Collapse menu" title="Collapse menu">
+            <span aria-hidden="true">◀</span>
+            <span class="portal-sidebar-toggle-text">Collapse</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="portal-content">
+        <div class="portal-breadcrumbs">
+          <nav aria-label="Breadcrumb">
+            <a href="home-web.html">Home</a>
+            <span class="portal-breadcrumbs-sep" aria-hidden="true">/</span>
+            <span aria-current="page">Dashboard</span>
+          </nav>
+        </div>
+        <main class="portal-main">
+          <h1>Dashboard placeholder</h1>
+          <p>Home content area. Top header is full width; menu is on the left under it; bottom nav on mobile.</p>
+        </main>
+      </div>
     </div>
-  </header>
-  <main class="portal-main">
-    <h1>Dashboard placeholder</h1>
-    <p>Home content area. Header has logo, portal name, menu placeholder, and profile with logout submenu.</p>
-  </main>
+  </div>
+
+  <nav class="portal-bottom-nav" aria-label="Primary (mobile)">
+    <ul class="portal-bottom-nav-list">
+      <li class="portal-bottom-nav-item">
+        <a href="home-web.html" class="active">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">⌂</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="portal-bottom-nav-item">
+        <a href="admin-companies.html">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">◉</span>
+          <span>Companies</span>
+        </a>
+      </li>
+      <li class="portal-bottom-nav-item">
+        <a href="#">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">👤</span>
+          <span>Users</span>
+        </a>
+      </li>
+      <li class="portal-bottom-nav-item">
+        <a href="#">
+          <span class="portal-bottom-nav-icon" aria-hidden="true">▤</span>
+          <span>Communities</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
   <script>
     (function() {
-      var wrap = document.getElementById('profile-wrap');
-      var trigger = document.getElementById('profile-trigger');
-      if (wrap && trigger) {
-        trigger.addEventListener('click', function() {
-          wrap.classList.toggle('is-open');
-          trigger.setAttribute('aria-expanded', wrap.classList.contains('is-open'));
+      var profileWrap = document.getElementById('profile-wrap');
+      var profileTrigger = document.getElementById('profile-trigger');
+      if (profileWrap && profileTrigger) {
+        profileTrigger.addEventListener('click', function() {
+          profileWrap.classList.toggle('is-open');
+          profileTrigger.setAttribute('aria-expanded', profileWrap.classList.contains('is-open'));
         });
         document.addEventListener('click', function(e) {
-          if (wrap && !wrap.contains(e.target)) {
-            wrap.classList.remove('is-open');
-            trigger.setAttribute('aria-expanded', 'false');
+          if (profileWrap && !profileWrap.contains(e.target)) {
+            profileWrap.classList.remove('is-open');
+            profileTrigger.setAttribute('aria-expanded', 'false');
           }
+        });
+      }
+      var sidebar = document.getElementById('sidebar');
+      var toggle = document.getElementById('sidebar-toggle');
+      if (sidebar && toggle) {
+        var collapsed = localStorage.getItem('portal-sidebar-collapsed') === '1';
+        if (collapsed) sidebar.classList.add('portal-sidebar--collapsed');
+        toggle.addEventListener('click', function() {
+          sidebar.classList.toggle('portal-sidebar--collapsed');
+          var isCollapsed = sidebar.classList.contains('portal-sidebar--collapsed');
+          localStorage.setItem('portal-sidebar-collapsed', isCollapsed ? '1' : '0');
+          toggle.setAttribute('aria-label', isCollapsed ? 'Expand menu' : 'Collapse menu');
+          toggle.setAttribute('title', isCollapsed ? 'Expand menu' : 'Collapse menu');
+          toggle.querySelector('span').textContent = isCollapsed ? '▶' : '◀';
         });
       }
     })();
