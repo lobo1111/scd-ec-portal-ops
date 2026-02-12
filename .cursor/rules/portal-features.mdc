@@ -26,3 +26,4 @@ When introducing a new feature:
 - Add `lib/features/<feature_name>/` with implementation and `FEATURE.md`
 - Register the feature in `lib/features/_registry.dart` (or wire its route in `lib/core/app_router.dart` if it is a special route like callback)
 - Add a **feature subagent** under `.cursor/agents/` (e.g. `feature-<name>.md`). Feature-specific guidance (source of truth, guardrails, typical changes) belongs in the subagent only; keep skills generic.
+- **Include unit and integration tests** for the new feature from the start. The PR that introduces the feature must add or extend tests (unit + integration) that cover the feature’s behavior; do not merge a new feature without accompanying tests.

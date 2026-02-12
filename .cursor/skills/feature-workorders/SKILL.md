@@ -89,6 +89,7 @@ When introducing a new feature, additionally:
 - Create `lib/features/<feature_name>/FEATURE.md`.
 - Create a feature subagent: `.cursor/agents/feature-<feature_name>.md`.
 - Put all feature-specific guidance in that subagent; keep skills generic.
+- **Ship unit and integration tests with the new feature.** The PR that introduces the feature must include tests (unit + integration) covering the feature’s behavior; do not merge a new feature without accompanying tests.
 
 ## Commit / push checklist (before every commit or push)
 - Current branch is **not** `main`. If it is, create and switch to a feature branch first.
