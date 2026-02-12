@@ -1,0 +1,28 @@
+---
+description: Require per-feature FEATURE.md (business/functional/technical) and keep it in sync with feature workorders.
+alwaysApply: true
+---
+
+# Portal feature capability docs (required)
+
+## Required file
+Every portal feature under `lib/features/<feature_name>/` must include:
+- `FEATURE.md` (required; source of truth for what the feature provides)
+
+## FEATURE.md must answer (in this order)
+1. **Business**: what user need it addresses, who uses it, value/outcomes, non-goals.
+2. **Functional**: behaviors/capabilities, screens/routes, inputs/outputs, constraints/limits.
+3. **Technical / implementation**: widgets/screens, routing, data dependencies, config, failure modes.
+
+## Process requirements
+- Any change must:
+  - decide which **portal features** are impacted
+  - update each impacted feature’s `FEATURE.md`
+  - create one GitHub issue **per impacted feature**
+  - ensure PR review checks implementation vs capability + issue acceptance criteria
+
+## New feature requirement
+When introducing a new feature:
+- Add `lib/features/<feature_name>/` with implementation and `FEATURE.md`
+- Register the feature in `lib/features/_registry.dart` (or wire its route in `lib/core/app_router.dart` if it is a special route like callback)
+- Add a **feature subagent** under `.cursor/agents/` (e.g. `feature-<name>.md`). Feature-specific guidance (source of truth, guardrails, typical changes) belongs in the subagent only; keep skills generic.

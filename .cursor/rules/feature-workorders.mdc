@@ -1,0 +1,51 @@
+---
+description: Feature workorders workflow: map requests to portal features, split into GitHub issues, branch/PR/test/deploy gates.
+alwaysApply: true
+---
+
+# Feature workorders (GitHub issues) workflow
+
+## Core principles
+- **Feature-first**: every change belongs to one or more portal features (under `lib/features/`).
+- **One issue per feature**: if a change spans features, create **multiple issues**, one per feature (optionally add an “umbrella” tracking issue).
+- **Capability-driven**: each feature must have `lib/features/<feature_name>/FEATURE.md`. A request is implemented by extending FEATURE.md + code.
+
+## Default flow (also applies to accepted plans)
+Unless the user explicitly opts out (e.g. “no issue/branch/PR, just patch locally”), the default workflow is:
+- **Create/confirm a workorder issue per impacted feature** before implementing.
+- **Create a feature branch per issue** (`feat/<issue-number>-<slug>` or `fix/<issue-number>-<slug>`) and do all work on that branch (avoid direct work on `main`).
+- **Isolation rule (multi-feature work)**: when there are multiple feature issues, each issue’s branch/PR must contain **only** the code/docs for that **one** feature. Do **not** commit changes for feature B on feature A’s branch.
+- **Commit changes** with messages aligned to the issue/acceptance criteria.
+- **Open a PR** that links the issue and includes summary + test/deploy evidence.
+
+When using Plan mode / `create_plan`, include issue/branch/PR steps as first-class items in the plan (not implied).
+
+## When a feature request arrives
+1. **Identify impacted features** (existing features under `lib/features/` or “new feature needed”).
+2. For each impacted feature:
+   - Ensure `FEATURE.md` exists and is updated to reflect the request (Business/Functional/Technical).
+   - Create a **workorder issue** for that feature via `gh issue create` using a **temp file** for the body.
+
+## Issue requirements (per feature)
+Each issue must include:
+- **Goal / business outcome**
+- **Functional requirements** (user-visible behavior)
+- **Technical scope** (files/widgets, routes, data, config)
+- **Acceptance criteria**
+- **Test plan**: unit + integration (what, where, how to run)
+- **Deploy plan**: how it will be validated in dev (e.g. run locally, deploy to hosting)
+
+## Branching + PR policy
+- **Branch per issue**: `feat/<issue-number>-<slug>` (or `fix/<issue-number>-<slug>`).
+- **One feature per branch/PR**: keep diffs single-feature scoped. For shared/cross-cutting work, use a **separate “shared/core” issue + branch/PR** or cherry-pick commits onto each feature branch.
+- **PR must link the issue** and include:
+  - Summary mapped to acceptance criteria
+  - Explicit callout of which `FEATURE.md` sections were updated/covered
+
+## Quality gates (must be enforced)
+- **Every commit**: run relevant **unit tests** (e.g. `flutter test`).
+- **Before merge (every PR)**:
+  - **Merge gate**: PRs must not be merged unless required tests have run successfully and results are in the PR.
+  - If the change affects the deployed app: **deploy to dev** (e.g. `tools/deploy_to_hosting.sh --env dev --variant ops`) and verify.
+  - Run **integration tests** as acceptance criteria when defined.
+  - PR review must confirm: request covered, capability (FEATURE.md) covered, no obvious code mistakes.

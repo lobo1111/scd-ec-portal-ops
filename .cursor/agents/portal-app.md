@@ -24,11 +24,17 @@ This repo only. Generic "portal app" — when the repo is cloned and dedicated t
 
 ## Typical changes
 
-- New features: add under `lib/features/<name>/`, register in `lib/features/_registry.dart`.
+- New features: add under `lib/features/<name>/`, add `FEATURE.md`, register in `lib/features/_registry.dart` (or wire in `app_router.dart` for special routes like callback), and add a feature subagent `.cursor/agents/feature-<name>.md`. Follow `.cursor/rules/portal-features.mdc` and the feature-workorders workflow (`.cursor/rules/feature-workorders.mdc`).
 - Config shape: update `lib/config/app_config.dart` and the collect_config output mapping.
 - Auth flow: Amplify Hosted UI in `lib/auth/`; callback in `lib/features/callback/`.
 - Run/deploy scripts: `tools/run_local.sh`, `tools/deploy_to_hosting.sh`; keep env/variant as parameters; when portal identity is set, scripts can default variant from it.
 - Docs: README, `tools/README.md`. No mention of specific portal types; only "variant" or "portal identity."
+
+## Feature-centric workflow
+
+- **Capability**: each feature has `lib/features/<name>/FEATURE.md` (Business/Functional/Technical). See skill `feature-capability-docs`.
+- **Workorders**: one GitHub issue per impacted feature; branch/PR per feature; quality gates (unit tests, deploy to dev). See skill `feature-workorders`.
+- **Subagents**: `.cursor/agents/feature-<name>.md` own feature scope, source of truth, and guardrails.
 
 ## When the clone is specialized
 

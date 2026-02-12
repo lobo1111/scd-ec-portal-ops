@@ -26,4 +26,7 @@ Config-driven auth (Cognito Hosted UI), feature registry, offline/sync contract,
 
 ## When adding a feature
 
-When you add a **new feature** (new folder under `lib/features/<name>/` and entry in the feature registry), also add a **feature subagent** under `.cursor/agents/` (e.g. `feature-<name>.md`) that owns that feature: scope (screens, widgets, routes, and any feature-specific data/repos), source of truth (paths under `lib/features/<name>/`), and guardrails. Use the portal-app agent as the template; keep the subagent focused on that feature only.
+When you add a **new feature** (new folder under `lib/features/<name>/` and entry in the feature registry or app router):
+- Add `lib/features/<name>/FEATURE.md` (see `.cursor/rules/portal-features.mdc` and the feature-capability-docs skill).
+- Add a **feature subagent** under `.cursor/agents/` (e.g. `feature-<name>.md`) that owns that feature: scope (screens, widgets, routes), source of truth (paths under `lib/features/<name>/`), and guardrails. Use the portal-app agent as the template; keep the subagent focused on that feature only.
+- Follow the feature-workorders workflow (one issue per feature, branch/PR per feature); see `.cursor/rules/feature-workorders.mdc` and the feature-workorders skill.
