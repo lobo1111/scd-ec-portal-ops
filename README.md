@@ -14,6 +14,7 @@ Generic Flutter portal foundation with **Cognito managed login**, extensible fea
    ./tools/run_local.sh --env dev --variant ops
    ```
    This pulls config from scd-echocorner and runs `flutter run -d chrome --web-port=3000`. Use `--no-config` to skip config and use existing `web/config.json`.
+   If the script reports "Flutter/Dart not found", either add Flutter to your PATH or use [FVM](https://fvm.app): run `fvm install` in this repo (creates `.fvm/flutter_sdk`); the script will use it automatically.
 
 2. **Build and deploy** to hosting from scd-echocorner (S3 + CloudFront):
    ```bash

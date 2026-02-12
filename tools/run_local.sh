@@ -6,6 +6,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
 
+# Prefer project-local Flutter (FVM) so the script works without global PATH
+if [[ -d "$PROJECT_ROOT/.fvm/flutter_sdk/bin" ]]; then
+  export PATH="$PROJECT_ROOT/.fvm/flutter_sdk/bin:$PATH"
+fi
+
 ENV="${ENV:-dev}"
 VARIANT="${VARIANT:-ops}"
 SCD_REPO="${SCD_REPO:-$PROJECT_ROOT/../scd-echocorner}"
@@ -48,10 +53,28 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Resolve dart and flutter (project .fvm already on PATH if present)
+DART_CMD=
+FLUTTER_CMD=
+if command -v dart &>/dev/null; then
+  DART_CMD="dart run"
+fi
+if command -v flutter &>/dev/null; then
+  FLUTTER_CMD="flutter"
+  if [[ -z "$DART_CMD" ]]; then
+    FLUTTER_BIN="$(dirname "$(command -v flutter)")"
+    DART_CMD="$FLUTTER_BIN/dart run"
+  fi
+fi
+if [[ -z "$DART_CMD" || -z "$FLUTTER_CMD" ]]; then
+  echo "Error: Flutter/Dart not found. Install Flutter SDK, or run 'fvm install' in this project." >&2
+  exit 1
+fi
+
 if [[ "$NO_CONFIG" != true ]]; then
   echo "Collecting config for env=$ENV variant=$VARIANT from $SCD_REPO ..."
-  dart run tools/collect_config.dart --env "$ENV" --variant "$VARIANT" --scd-repo "$SCD_REPO" --out web/config.json
+  $DART_CMD tools/collect_config.dart --env "$ENV" --variant "$VARIANT" --scd-repo "$SCD_REPO" --out web/config.json
 fi
 
 echo "Starting Flutter web app on port $WEB_PORT ..."
-exec flutter run -d chrome --web-port="$WEB_PORT"
+exec $FLUTTER_CMD run -d chrome --web-port="$WEB_PORT"
