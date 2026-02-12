@@ -1,0 +1,9 @@
+{
+  "name": "Portal",
+  "short_name": "Portal",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#236042",
+  "description": "Generic portal foundation"
+}

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>echoCorner Style Guide</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .style-guide {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--spacing-8) var(--spacing-4);
+    }
+
+    .style-guide-header {
+      text-align: center;
+      margin-bottom: var(--spacing-12);
+      padding-bottom: var(--spacing-8);
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    .style-guide-header img {
+      max-width: 120px;
+      height: auto;
+      margin-bottom: var(--spacing-4);
+    }
+
+    .style-guide-section {
+      margin-bottom: var(--spacing-12);
+    }
+
+    .style-guide-section h2 {
+      font-size: var(--font-size-3xl);
+      margin-bottom: var(--spacing-6);
+      padding-bottom: var(--spacing-4);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .style-guide-section h3 {
+      font-size: var(--font-size-xl);
+      margin-top: var(--spacing-8);
+      margin-bottom: var(--spacing-4);
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--spacing-4);
+      margin-bottom: var(--spacing-6);
+    }
+
+    .color-swatch {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .color-swatch-preview {
+      height: 100px;
+      width: 100%;
+    }
+
+    .color-swatch-info {
+      padding: var(--spacing-3);
+      background-color: var(--white);
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .color-swatch-name {
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--spacing-1);
+    }
+
+    .color-swatch-value {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-xs);
+      color: var(--gray-600);
+    }
+
+    .typography-sample {
+      margin-bottom: var(--spacing-6);
+      padding: var(--spacing-6);
+      background-color: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+    }
+
+    .component-showcase {
+      display: grid;
+      gap: var(--spacing-6);
+      margin-bottom: var(--spacing-6);
+    }
+
+    .showcase-item {
+      padding: var(--spacing-6);
+      background-color: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+    }
+
+    .showcase-item h4 {
+      margin-bottom: var(--spacing-4);
+      color: var(--gray-700);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-4);
+      margin-bottom: var(--spacing-4);
+    }
+
+    .spacing-box {
+      background-color: var(--primary-200);
+      border: 1px solid var(--primary-300);
+    }
+
+    .spacing-label {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--gray-600);
+      min-width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="style-guide">
+    <header class="style-guide-header">
+      <img src="echocorner.png" alt="echoCorner Logo">
+      <h1>echoCorner Design System</h1>
+      <p class="text-gray-700">A comprehensive style guide for the echoCorner application</p>
+    </header>
+
+    <!-- Color Palette -->
+    <section class="style-guide-section">
+      <h2>Color Palette</h2>
+      
+      <h3>Primary Colors (Celadon)</h3>
+      <div class="color-palette">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-50);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 50</div>
+            <div class="color-swatch-value">#f0f9f4</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-100);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 100</div>
+            <div class="color-swatch-value">#dcf2e3</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-200);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 200</div>
+            <div class="color-swatch-value">#bce5cc</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-300);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 300</div>
+            <div class="color-swatch-value">#8fd1a8</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-400);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 400</div>
+            <div class="color-swatch-value">#5ab37d</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-500);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 500</div>
+            <div class="color-swatch-value">#3a9662</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-600);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 600</div>
+            <div class="color-swatch-value">#2a7850</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--celadon-700);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Celadon 700</div>
+            <div class="color-swatch-value">#236042</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Secondary Colors (Blue/Teal)</h3>
+      <div class="color-palette">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--blue-400);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Blue 400</div>
+            <div class="color-swatch-value">#38bdf8</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--blue-500);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Blue 500</div>
+            <div class="color-swatch-value">#0ea5e9</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--blue-600);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Blue 600</div>
+            <div class="color-swatch-value">#0284c7</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--teal-400);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Teal 400</div>
+            <div class="color-swatch-value">#2dd4bf</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--teal-500);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Teal 500</div>
+            <div class="color-swatch-value">#14b8a6</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--teal-600);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Teal 600</div>
+            <div class="color-swatch-value">#0d9488</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Semantic Colors</h3>
+      <div class="color-palette">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--success);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Success</div>
+            <div class="color-swatch-value">#10b981</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--error);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Error</div>
+            <div class="color-swatch-value">#ef4444</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--warning);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Warning</div>
+            <div class="color-swatch-value">#f59e0b</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--info);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Info</div>
+            <div class="color-swatch-value">#3b82f6</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Neutral Colors</h3>
+      <div class="color-palette">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--gray-50); border: 1px solid var(--gray-200);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Gray 50</div>
+            <div class="color-swatch-value">#f9fafb</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--gray-100);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Gray 100</div>
+            <div class="color-swatch-value">#f3f4f6</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--gray-300);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Gray 300</div>
+            <div class="color-swatch-value">#d1d5db</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--gray-500);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Gray 500</div>
+            <div class="color-swatch-value">#6b7280</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--gray-700);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Gray 700</div>
+            <div class="color-swatch-value">#374151</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--gray-900);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Gray 900</div>
+            <div class="color-swatch-value">#111827</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="style-guide-section">
+      <h2>Typography</h2>
+      
+      <div class="typography-sample">
+        <h1>Heading 1</h1>
+        <p class="text-gray-600">Font size: 2.25rem (36px) | Weight: 600 | Line height: 1.25</p>
+      </div>
+
+      <div class="typography-sample">
+        <h2>Heading 2</h2>
+        <p class="text-gray-600">Font size: 1.875rem (30px) | Weight: 600 | Line height: 1.25</p>
+      </div>
+
+      <div class="typography-sample">
+        <h3>Heading 3</h3>
+        <p class="text-gray-600">Font size: 1.5rem (24px) | Weight: 600 | Line height: 1.25</p>
+      </div>
+
+      <div class="typography-sample">
+        <h4>Heading 4</h4>
+        <p class="text-gray-600">Font size: 1.25rem (20px) | Weight: 600 | Line height: 1.25</p>
+      </div>
+
+      <div class="typography-sample">
+        <h5>Heading 5</h5>
+        <p class="text-gray-600">Font size: 1.125rem (18px) | Weight: 600 | Line height: 1.25</p>
+      </div>
+
+      <div class="typography-sample">
+        <h6>Heading 6</h6>
+        <p class="text-gray-600">Font size: 1rem (16px) | Weight: 600 | Line height: 1.25</p>
+      </div>
+
+      <div class="typography-sample">
+        <p>Body text - This is the default paragraph style. It uses a font size of 1rem (16px) with a line height of 1.5 for optimal readability. The font family is a system font stack that adapts to the user's operating system.</p>
+        <p class="text-sm">Small text - Font size: 0.875rem (14px)</p>
+        <p class="text-lg">Large text - Font size: 1.125rem (18px)</p>
+        <p class="text-xl">Extra large text - Font size: 1.25rem (20px)</p>
+      </div>
+
+      <div class="typography-sample">
+        <p><strong>Bold text</strong> - Font weight: 700</p>
+        <p><em>Italic text</em> - Font style: italic</p>
+        <p><a href="#">Link text</a> - Uses primary color with hover state</p>
+        <code style="font-family: var(--font-family-mono); background: var(--gray-100); padding: 2px 6px; border-radius: 4px;">Monospace code text</code>
+      </div>
+    </section>
+
+    <!-- Spacing System -->
+    <section class="style-guide-section">
+      <h2>Spacing System</h2>
+      <p class="text-gray-700 mb-6">Based on a 4px grid system. All spacing values are multiples of 4px.</p>
+      
+      <div class="showcase-item">
+        <div class="spacing-demo">
+          <span class="spacing-label">4px (0.25rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-1); height: var(--spacing-1);"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">8px (0.5rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-2); height: var(--spacing-2);"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">12px (0.75rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-3); height: var(--spacing-3);"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">16px (1rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-4); height: var(--spacing-4);"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">24px (1.5rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-6); height: var(--spacing-6);"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">32px (2rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-8); height: var(--spacing-8);"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">48px (3rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-12); height: var(--spacing-12);"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">64px (4rem)</span>
+          <div class="spacing-box" style="width: var(--spacing-16); height: var(--spacing-16);"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="style-guide-section">
+      <h2>Buttons</h2>
+      
+      <div class="component-showcase">
+        <div class="showcase-item">
+          <h4>Primary Buttons</h4>
+          <div style="display: flex; gap: var(--spacing-4); flex-wrap: wrap;">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-primary btn-lg">Large</button>
+            <button class="btn btn-primary" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="showcase-item">
+          <h4>Secondary Buttons</h4>
+          <div style="display: flex; gap: var(--spacing-4); flex-wrap: wrap;">
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-secondary btn-sm">Small</button>
+            <button class="btn btn-secondary btn-lg">Large</button>
+          </div>
+        </div>
+
+        <div class="showcase-item">
+          <h4>Outline & Ghost Buttons</h4>
+          <div style="display: flex; gap: var(--spacing-4); flex-wrap: wrap;">
+            <button class="btn btn-outline">Outline</button>
+            <button class="btn btn-ghost">Ghost</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Inputs -->
+    <section class="style-guide-section">
+      <h2>Form Inputs</h2>
+      
+      <div class="component-showcase">
+        <div class="showcase-item">
+          <h4>Text Inputs</h4>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="name@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" placeholder="Enter your password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Disabled Input</label>
+            <input type="text" class="form-input" placeholder="Disabled" disabled>
+          </div>
+        </div>
+
+        <div class="showcase-item">
+          <h4>Textarea</h4>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" placeholder="Enter your message here..."></textarea>
+          </div>
+        </div>
+
+        <div class="showcase-item">
+          <h4>Select</h4>
+          <div class="form-group">
+            <label class="form-label">Choose an option</label>
+            <select class="form-select">
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section class="style-guide-section">
+      <h2>Cards</h2>
+      
+      <div class="grid grid-cols-3">
+        <div class="card">
+          <div class="card-header">
+            <h3 style="margin: 0;">Card Title</h3>
+          </div>
+          <div class="card-body">
+            <p>This is a basic card component with header and body sections.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h3 style="margin-top: 0;">Simple Card</h3>
+            <p>Cards can be used without headers or footers for simpler layouts.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 style="margin: 0;">Card with Footer</h3>
+          </div>
+          <div class="card-body">
+            <p>This card includes a footer section for additional actions or information.</p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary btn-sm">Action</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges -->
+    <section class="style-guide-section">
+      <h2>Badges</h2>
+      
+      <div class="showcase-item">
+        <h4>Badge Variants</h4>
+        <div style="display: flex; gap: var(--spacing-4); flex-wrap: wrap; align-items: center;">
+          <span class="badge badge-primary">Primary</span>
+          <span class="badge badge-secondary">Secondary</span>
+          <span class="badge badge-success">Success</span>
+          <span class="badge badge-error">Error</span>
+          <span class="badge badge-warning">Warning</span>
+          <span class="badge badge-info">Info</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="style-guide-section">
+      <h2>Navigation</h2>
+      
+      <div class="showcase-item">
+        <h4>Navigation Links</h4>
+        <nav class="nav">
+          <a href="#" class="nav-link active">Home</a>
+          <a href="#" class="nav-link">Dashboard</a>
+          <a href="#" class="nav-link">Settings</a>
+          <a href="#" class="nav-link">Profile</a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Responsive Breakpoints -->
+    <section class="style-guide-section">
+      <h2>Responsive Breakpoints</h2>
+      
+      <div class="showcase-item">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background-color: var(--gray-100);">
+              <th style="padding: var(--spacing-3); text-align: left; border-bottom: 2px solid var(--gray-300);">Breakpoint</th>
+              <th style="padding: var(--spacing-3); text-align: left; border-bottom: 2px solid var(--gray-300);">Min Width</th>
+              <th style="padding: var(--spacing-3); text-align: left; border-bottom: 2px solid var(--gray-300);">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);"><code>Mobile</code></td>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);">&lt; 768px</td>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);">Mobile phones and small devices</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);"><code>Tablet</code></td>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);">768px - 1024px</td>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);">Tablets and small laptops</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);"><code>Desktop</code></td>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);">1024px - 1920px</td>
+              <td style="padding: var(--spacing-3); border-bottom: 1px solid var(--gray-200);">Desktop and large screens</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-3);"><code>Full HD</code></td>
+              <td style="padding: var(--spacing-3);">1920px+</td>
+              <td style="padding: var(--spacing-3);">Full HD displays and larger</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,29 @@
+---
+description: Single-portal app repo; config from deploy state; run/deploy tools; portal identity set in clone.
+alwaysApply: true
+---
+
+# Portal app (generic)
+
+## Single-portal app
+
+This repo is a **single-portal app**: one clone = one portal. When the repo is specialized (after clone), a **portal identity** may be set (e.g. in `.portal` or `config/portal.json` or env); tools and workflows use that when calling config/deploy scripts.
+
+## Config
+
+Config comes from **deploy state** (e.g. an external repo such as scd-echocorner): use `tools/collect_config.dart` with `--env` and `--variant`. Variant can be supplied by the caller or, when set, from the repo's portal identity.
+
+## Run and deploy
+
+- **Run locally**: `tools/run_local.sh` (optionally `--env`, `--variant`, `--scd-repo`, `--no-config`). If the repo has a portal identity, scripts can default variant from it.
+- **Build and deploy to hosting**: `tools/deploy_to_hosting.sh` with `--env` and `--variant`. Reads bucket and distribution from deploy state via `tools/get_hosting_outputs.dart`; then S3 sync and CloudFront invalidation.
+
+No enumeration of portal types; only the concept "portal identity for this clone."
+
+## App structure
+
+Config-driven auth (Cognito Hosted UI), feature registry, offline/sync contract, optional GraphQL/WebSockets. Extensible features under `lib/features/`. Keep run/deploy and capability guidance in one place.
+
+## When adding a feature
+
+When you add a **new feature** (new folder under `lib/features/<name>/` and entry in the feature registry), also add a **feature subagent** under `.cursor/agents/` (e.g. `feature-<name>.md`) that owns that feature: scope (screens, widgets, routes, and any feature-specific data/repos), source of truth (paths under `lib/features/<name>/`), and guardrails. Use the portal-app agent as the template; keep the subagent focused on that feature only.

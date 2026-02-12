@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal - Dashboard</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <link rel="stylesheet" href="../assets/portal-mocks.css">
+</head>
+<body class="body-mobile">
+  <header class="portal-header">
+    <div class="portal-header-left">
+      <a href="home-mobile.html" class="portal-header-logo" aria-label="Portal home">
+        <img src="../assets/echocorner_mini.png" alt="Portal">
+      </a>
+      <span class="portal-header-title">Portal</span>
+      <button type="button" class="portal-nav-mobile-trigger" aria-label="Menu">Menu (placeholder)</button>
+    </div>
+    <div class="portal-header-right">
+      <div class="portal-profile-wrap" id="profile-wrap">
+        <button type="button" class="portal-profile-trigger" id="profile-trigger" aria-haspopup="true" aria-expanded="false" aria-label="Profile menu">
+          <span class="portal-avatar" aria-hidden="true">P</span>
+          <span>Profile</span>
+        </button>
+        <div class="portal-profile-dropdown" role="menu" aria-label="Profile actions">
+          <a href="logout.html" role="menuitem">Log out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="portal-main">
+    <h1>Dashboard placeholder</h1>
+    <p>Home content area. Header has logo, portal name, menu placeholder, and profile with logout submenu.</p>
+  </main>
+  <script>
+    (function() {
+      var wrap = document.getElementById('profile-wrap');
+      var trigger = document.getElementById('profile-trigger');
+      if (wrap && trigger) {
+        trigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          wrap.classList.toggle('is-open');
+          trigger.setAttribute('aria-expanded', wrap.classList.contains('is-open'));
+        });
+        document.addEventListener('click', function(e) {
+          if (wrap && !wrap.contains(e.target)) {
+            wrap.classList.remove('is-open');
+            trigger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

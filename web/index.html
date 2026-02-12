@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#236042">
+  <title>Portal</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="flutter_bootstrap.js" async></script>
+</head>
+<body>
+  <script>
+    var serviceWorkerVersion = null;
+    window.addEventListener('load', function(ev) {
+      if (typeof _flutter !== 'undefined' && _flutter.loader && _flutter.loader.loadEntrypoint) {
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: { serviceWorkerVersion: serviceWorkerVersion },
+          onEntrypointLoaded: function(engineInitializer) {
+            engineInitializer.initializeEngine().then(function(appRunner) {
+              appRunner.runApp();
+            });
+          }
+        });
+      }
+    });
+  </script>
+  <div id="loading" style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;">Loading…</div>
+</body>
+</html>

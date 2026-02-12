@@ -1,0 +1,18 @@
+# Portal identity (set in clone when dedicated to one portal)
+.portal
+
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+*.iml
+*.ipr
+*.iws
+pubspec.lock
+
+# IDE
+.idea/
+*.iml
+
+# Generated (optional: commit web/config.json or ignore)
+# web/config.json

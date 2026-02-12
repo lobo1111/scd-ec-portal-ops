@@ -1,0 +1,9 @@
+{
+  "userPoolId": "REPLACE_ME",
+  "userPoolClientId": "REPLACE_ME",
+  "cognitoHostedUiDomain": "REPLACE_ME",
+  "region": "eu-central-1",
+  "portalUrl": "",
+  "apiBaseUrl": "",
+  "graphqlEndpoint": ""
+}
