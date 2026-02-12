@@ -6,17 +6,19 @@ alwaysApply: true
 # Feature workorders (GitHub issues) workflow
 
 ## Core principles
+- **No direct commits to main**: all changes must land via a feature branch and a pull request. See `.cursor/rules/no-commit-to-main.mdc`.
 - **Feature-first**: every change belongs to one or more portal features (under `lib/features/`).
 - **One issue per feature**: if a change spans features, create **multiple issues**, one per feature (optionally add an “umbrella” tracking issue).
 - **Capability-driven**: each feature must have `lib/features/<feature_name>/FEATURE.md`. A request is implemented by extending FEATURE.md + code.
 
 ## Default flow (also applies to accepted plans)
 Unless the user explicitly opts out (e.g. “no issue/branch/PR, just patch locally”), the default workflow is:
+- **Never commit or push to `main`.** If current branch is `main`, create a feature branch first, then make all commits on that branch.
 - **Create/confirm a workorder issue per impacted feature** before implementing.
-- **Create a feature branch per issue** (`feat/<issue-number>-<slug>` or `fix/<issue-number>-<slug>`) and do all work on that branch (avoid direct work on `main`).
+- **Create a feature branch per issue** (`feat/<issue-number>-<slug>` or `fix/<issue-number>-<slug>`) and do **all** work on that branch.
 - **Isolation rule (multi-feature work)**: when there are multiple feature issues, each issue’s branch/PR must contain **only** the code/docs for that **one** feature. Do **not** commit changes for feature B on feature A’s branch.
-- **Commit changes** with messages aligned to the issue/acceptance criteria.
-- **Open a PR** that links the issue and includes summary + test/deploy evidence.
+- **Commit changes** on the feature branch only, with messages aligned to the issue/acceptance criteria.
+- **Open a PR** targeting `main` that links the issue and includes summary + test/deploy evidence. Merge only after quality gates pass.
 
 When using Plan mode / `create_plan`, include issue/branch/PR steps as first-class items in the plan (not implied).
 
@@ -43,9 +45,10 @@ Each issue must include:
   - Explicit callout of which `FEATURE.md` sections were updated/covered
 
 ## Quality gates (must be enforced)
-- **Every commit**: run relevant **unit tests** (e.g. `flutter test`).
+- **Every commit** (on a feature branch): run relevant **unit tests** (e.g. `flutter test`). Do not push failing tests.
 - **Before merge (every PR)**:
-  - **Merge gate**: PRs must not be merged unless required tests have run successfully and results are in the PR.
+  - **Merge gate**: PRs must not be merged unless required tests have run successfully and results are reflected in the PR.
   - If the change affects the deployed app: **deploy to dev** (e.g. `tools/deploy_to_hosting.sh --env dev --variant ops`) and verify.
   - Run **integration tests** as acceptance criteria when defined.
   - PR review must confirm: request covered, capability (FEATURE.md) covered, no obvious code mistakes.
+- **Main is protected**: the only way code gets onto `main` is by merging a PR that has passed these gates. No direct push to `main`.

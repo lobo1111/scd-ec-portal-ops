@@ -1,0 +1,21 @@
+---
+description: Never commit directly to main; all changes must go through a feature branch and PR.
+alwaysApply: true
+---
+
+# No direct commits to main
+
+## Hard rule
+- **Do not commit to `main`.** Ever.
+- All changes must be made on a **feature branch** (`feat/<issue-number>-<slug>` or `fix/<issue-number>-<slug>`) and merged via **pull request** after quality gates pass.
+
+## If you are on main
+1. Create a branch from the current state (or from latest `main`):  
+   `git checkout -b feat/<issue-number>-<slug>`
+2. Make all commits on that branch.
+3. Push the branch and open a PR targeting `main`.
+4. Do not push to `main` or merge without a PR.
+
+## Enforcement
+- **Agent**: when asked to commit or push, refuse if the current branch is `main` and there are staged or unpushed changes that represent new work. Instead, create a feature branch, then commit and push the branch.
+- **Repository**: use **branch protection** on `main`: require a pull request before merging, require status checks (e.g. CI running `flutter test`), disallow force-push and direct push to `main`. Configure in GitHub: Settings → Branches → Add rule for `main`. See `.cursor/skills/pr-quality-gates/SKILL.md`.

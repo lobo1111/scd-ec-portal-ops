@@ -5,6 +5,12 @@ description: Create and manage workorders using GitHub issues, splitting by port
 
 # Feature workorders (GitHub issues) skill
 
+## No direct commits to main (enforce always)
+- **Never commit to `main`.** Never push to `main` with new work. All changes must go through a feature branch and a PR.
+- Before making any commit: if current branch is `main`, **create a feature branch first** (`git checkout -b feat/<issue-number>-<slug>` or `fix/...`), then make all commits on that branch.
+- If the user asks to "commit to main" or "push to main": refuse and instruct them to create a branch, commit there, open a PR, and merge after gates pass.
+- When suggesting or running `git` commands: never run `git push origin main` with new commits; never stage and commit on `main` for feature work.
+
 ## Decision: which features are impacted?
 Given a request:
 1. List **candidate features** under `lib/features/` that are affected (screens, routes, widgets, data used by a feature).
@@ -64,8 +70,8 @@ Use this structure:
 ```
 
 ## Branching workflow
-- Branch per issue: `feat/<issue-number>-<slug>` (or `fix/<issue-number>-<slug>`).
-- Create the branch after issue creation and include the issue number in commits/PR title.
+- **Always work on a branch.** Never commit to `main`. Branch per issue: `feat/<issue-number>-<slug>` (or `fix/<issue-number>-<slug>`).
+- Create the branch (from `main`) after issue creation; include the issue number in branch name, commits, and PR title.
 - **Isolation rule (multi-feature work)**:
   - Multiple issues → **multiple branches** (one per issue).
   - Each branch/PR must include changes for **exactly one** feature (or shared/core).
@@ -83,3 +89,9 @@ When introducing a new feature, additionally:
 - Create `lib/features/<feature_name>/FEATURE.md`.
 - Create a feature subagent: `.cursor/agents/feature-<feature_name>.md`.
 - Put all feature-specific guidance in that subagent; keep skills generic.
+
+## Commit / push checklist (before every commit or push)
+- Current branch is **not** `main`. If it is, create and switch to a feature branch first.
+- Unit tests pass (`flutter test`).
+- Commit message references the issue or acceptance criteria where helpful.
+- Push goes to the feature branch only (`git push -u origin feat/...`), never `git push origin main`.
