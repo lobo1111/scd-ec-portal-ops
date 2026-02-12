@@ -1,7 +1,7 @@
 {
   "userPoolId": "eu-central-1_nKCI77kbn",
   "userPoolClientId": "8gne8vpvdlm2chst4mhsk9o93",
-  "cognitoHostedUiDomain": "echocorner-ops-dev",
+  "cognitoHostedUiDomain": "echocorner-ops-dev.auth.eu-central-1.amazoncognito.com",
   "region": "eu-central-1",
   "portalUrl": "https://ops.dev.echocorner.kopacki.eu",
   "apiBaseUrl": "https://api.ops.dev.echocorner.kopacki.eu/graphql",
