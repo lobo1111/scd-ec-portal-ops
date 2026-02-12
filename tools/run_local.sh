@@ -20,7 +20,7 @@ usage() {
   cat <<EOF
 Usage: $0 [options]
 
-Runs the Flutter portal locally (Chrome). If --config is used, writes web/config.json
+Runs the Flutter portal locally (Chrome if available, else web-server). If --config is used, writes web/config.json
 from scd-echocorner deploy state first so auth and API URLs match the chosen environment.
 
 Options (or set env vars):
@@ -76,5 +76,13 @@ if [[ "$NO_CONFIG" != true ]]; then
   $DART_CMD tools/collect_config.dart --env "$ENV" --variant "$VARIANT" --scd-repo "$SCD_REPO" --out web/config.json
 fi
 
+# Prefer Chrome if available (e.g. macOS/Windows); otherwise start web server (e.g. WSL without Chrome)
+if $FLUTTER_CMD devices 2>/dev/null | grep -q "chrome"; then
+  FLUTTER_DEVICE=chrome
+else
+  FLUTTER_DEVICE=web-server
+  echo "Chrome not found; using web-server. Open http://localhost:$WEB_PORT in a browser."
+fi
+
 echo "Starting Flutter web app on port $WEB_PORT ..."
-exec $FLUTTER_CMD run -d chrome --web-port="$WEB_PORT"
+exec $FLUTTER_CMD run -d "$FLUTTER_DEVICE" --web-port="$WEB_PORT"

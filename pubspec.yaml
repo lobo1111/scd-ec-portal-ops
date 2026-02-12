@@ -12,6 +12,7 @@ dependencies:
 
   # Auth (Cognito managed login)
   amplify_flutter: ^2.10.0
+  amplify_auth_cognito: ^2.10.0
 
   # Routing
   go_router: ^14.6.0

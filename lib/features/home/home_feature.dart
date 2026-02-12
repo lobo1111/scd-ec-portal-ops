@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 
-import 'feature_descriptor.dart';
+import '../feature_descriptor.dart';
 import 'home_screen.dart';
 
 final homeFeatureDescriptor = FeatureDescriptor(

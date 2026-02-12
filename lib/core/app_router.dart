@@ -1,21 +1,28 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../auth/auth_service.dart';
 import '../config/app_config.dart';
 import '../features/_registry.dart';
 import '../features/callback/callback_screen.dart';
+import '../features/home/home_screen.dart';
 
 GoRouter createAppRouter(AppConfig config, AuthService authService) {
-  final callbackRoute = GoRoute(
-    path: '/callback',
-    builder: (context, state) => CallbackScreen(config: config, authService: authService),
+  // Root route: when OAuth returns to /?code=...&state=..., handle exchange then go(/) to strip query.
+  final rootRoute = GoRoute(
+    path: '/',
+    builder: (context, state) {
+      if (state.uri.queryParameters.containsKey('code')) {
+        return CallbackScreen(config: config, authService: authService);
+      }
+      return const HomeScreen();
+    },
   );
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) async {
-      final isCallback = state.matchedLocation == '/callback';
-      if (isCallback) return null;
+      if (state.matchedLocation == '/' && state.uri.queryParameters.containsKey('code')) {
+        return null;
+      }
       try {
         final user = await authService.getCurrentUser();
         if (user != null) return null;
@@ -24,8 +31,8 @@ GoRouter createAppRouter(AppConfig config, AuthService authService) {
       return null;
     },
     routes: [
+      rootRoute,
       ...featureDescriptors.expand((f) => f.routes),
-      callbackRoute,
     ],
   );
 }

@@ -23,11 +23,11 @@ Future<AppConfig> _loadConfigFromAssets() async {
 }
 
 /// Provider: loads config once from /config.json (web) or assets/config.json (mobile).
+/// On web, always use origin + /config.json so config loads correctly from any route (e.g. /callback after login).
 final appConfigProvider = FutureProvider<AppConfig>((ref) async {
   if (kIsWeb) {
-    final baseUrl = Uri.base;
-    final path = baseUrl.path.endsWith('/') ? '${baseUrl.path}config.json' : '${baseUrl.path}/config.json';
-    final configUrl = baseUrl.replace(path: path);
+    final origin = Uri.base.origin;
+    final configUrl = Uri.parse('$origin/config.json');
     return _fetchConfig(configUrl);
   }
   return _loadConfigFromAssets();

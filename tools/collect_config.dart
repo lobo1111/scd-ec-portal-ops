@@ -151,17 +151,28 @@ Map<String, dynamic>? buildConfig(String variant, Map<String, dynamic> products,
   if (userPoolId == null || userPoolClientId == null || hostedUiDomain == null) {
     return null;
   }
+  // Cognito prefix domain (e.g. echocorner-ops-dev) must be full host for OAuth: prefix.auth.region.amazoncognito.com
+  final cognitoHostedUiDomain = _normalizeCognitoHostedUiDomain(hostedUiDomain, region);
   final hostingOut = products[keys['hosting']!]?['outputs'] as Map<String, dynamic>?;
   final apiOut = products[keys['api']!]?['outputs'] as Map<String, dynamic>?;
   return {
     'userPoolId': userPoolId,
     'userPoolClientId': userPoolClientId,
-    'cognitoHostedUiDomain': hostedUiDomain,
+    'cognitoHostedUiDomain': cognitoHostedUiDomain,
     'region': region,
     'portalUrl': hostingOut?['PortalUrl'] as String? ?? '',
     'apiBaseUrl': apiOut?['ApiUrl'] as String? ?? '',
     'graphqlEndpoint': apiOut?['GraphQLEndpoint'] as String? ?? '',
   };
+}
+
+/// Returns a full host for Cognito OAuth. Deploy state may output a prefix (e.g. echocorner-ops-dev);
+/// Amplify needs the full host: prefix.auth.region.amazoncognito.com. Custom FQDNs are passed through.
+String _normalizeCognitoHostedUiDomain(String hostedUiDomain, String region) {
+  if (hostedUiDomain.contains('.')) {
+    return hostedUiDomain;
+  }
+  return '$hostedUiDomain.auth.$region.amazoncognito.com';
 }
 
 void exitUsage(String message) {
