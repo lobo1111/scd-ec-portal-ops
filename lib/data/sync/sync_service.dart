@@ -14,7 +14,7 @@ abstract class SyncService {
 
   /// Register an entity for sync (key + pull logic). Optional; some implementations
   /// may require registration before [syncEntity] works.
-  void registerEntity(String entityKey, Future<void> Function(String cursor?) pull);
+  void registerEntity(String entityKey, Future<void> Function(String? cursor) pull);
 }
 
 /// Default implementation: uses [SyncMetadataStore]; [syncEntity] delegates to registered pull.

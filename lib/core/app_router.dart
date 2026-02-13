@@ -2,21 +2,12 @@ import 'package:go_router/go_router.dart';
 
 import '../auth/auth_service.dart';
 import '../config/app_config.dart';
-import '../features/_registry.dart';
+import '../features/admin_companies/admin_companies_screen.dart';
 import '../features/callback/callback_screen.dart';
 import '../features/home/home_screen.dart';
+import 'portal_shell.dart';
 
 GoRouter createAppRouter(AppConfig config, AuthService authService) {
-  // Root route: when OAuth returns to /?code=...&state=..., handle exchange then go(/) to strip query.
-  final rootRoute = GoRoute(
-    path: '/',
-    builder: (context, state) {
-      if (state.uri.queryParameters.containsKey('code')) {
-        return CallbackScreen(config: config, authService: authService);
-      }
-      return const HomeScreen();
-    },
-  );
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) async {
@@ -31,8 +22,27 @@ GoRouter createAppRouter(AppConfig config, AuthService authService) {
       return null;
     },
     routes: [
-      rootRoute,
-      ...featureDescriptors.expand((f) => f.routes),
+      GoRoute(
+        path: '/',
+        builder: (context, state) {
+          if (state.uri.queryParameters.containsKey('code')) {
+            return CallbackScreen(config: config, authService: authService);
+          }
+          return PortalShell(
+            authService: authService,
+            currentPath: '/',
+            child: const HomeScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/admin/companies',
+        builder: (context, state) => PortalShell(
+          authService: authService,
+          currentPath: '/admin/companies',
+          child: const AdminCompaniesScreen(),
+        ),
+      ),
     ],
   );
 }
